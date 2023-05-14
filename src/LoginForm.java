@@ -1,9 +1,11 @@
 import javax.swing.*;
+import java.awt.*;
 
 public class LoginForm extends JFrame{
     JLabel LEmail = new JLabel("Email ");
     JLabel LPassword  = new JLabel("Password ");
-    JLabel LAnotherAccount  = new JLabel("Another account");
+    JLabel LAnotherAccount  = new JLabel("Another Account");
+    JLabel FormTitle=new JLabel("Login");
     JTextField TEmail = new JTextField();
     JTextField TPassword  = new JTextField();
     JTextField TAnotherAccount = new JTextField();
@@ -12,28 +14,50 @@ public class LoginForm extends JFrame{
 
     public LoginForm() {
         this.setTitle("login");
-        this.setSize(500, 700);
+        this.setSize(500, 500);
         this.setLocation(500, 100);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(null);
-        LEmail.setBounds(20, 20, 130, 25);
-        this.add(LEmail);
-        LPassword.setBounds(20, 60, 130, 25);
-        this.add(LPassword);
-        LAnotherAccount.setBounds(20, 100, 130, 25);
-        this.add(LAnotherAccount);
-        TEmail.setBounds(150, 23, 130, 22);
-        this.add(TEmail);
-        this.add(TPassword);
-        TPassword.setBounds(150, 63, 130, 22);
-        this.add(TAnotherAccount);
-        TAnotherAccount.setBounds(150, 103, 130, 22);
 
-        BLogin.setBounds(120, 180, 80, 22);
-        this.add(BLogin);
-        BForget.setBounds(20, 140, 165, 22);
+
+
+        int LabelWidth=100, LabelHeight=30;
+        int txtFieldWidth=LabelWidth*3;
+        int x=25;
+        int row=x, PrvHeight=0;
+        int col=25, col2=col+LabelWidth+10+30;
+
+        FormTitle.setFont(new Font(Font.SANS_SERIF, NORMAL, 28));
+        FormTitle.setBounds(200, 5, 250, 100);
+
+        row+=x+15+5; PrvHeight+=LabelHeight;
+        LEmail.setBounds(col, row+PrvHeight, LabelWidth, LabelHeight);
+        TEmail.setBounds(col2, row+PrvHeight, txtFieldWidth, LabelHeight);
+
+        row+=x+15; PrvHeight+=LabelHeight;
+        LPassword.setBounds(col, row+PrvHeight, LabelWidth, LabelHeight);
+        TPassword.setBounds(col2, row+PrvHeight, txtFieldWidth, LabelHeight);
+
+        row+=x+15; PrvHeight+=LabelHeight;
+        LAnotherAccount.setBounds(col, row+PrvHeight, LabelWidth+30, LabelHeight);
+        TAnotherAccount.setBounds(col2, row+PrvHeight, txtFieldWidth, LabelHeight);
+
+        row+=x+15; PrvHeight+=LabelHeight;
+        BForget.setBounds(col, row+PrvHeight, txtFieldWidth, LabelHeight);
+        row+=x+15; PrvHeight+=LabelHeight;
+        BLogin.setBounds(col2, row+PrvHeight, LabelWidth, LabelHeight);
+
+
+        this.add(LPassword);
         this.add(BForget);
+        this.add(FormTitle);
+        this.add(LEmail);
+        this.add(TEmail);
+        this.add(LAnotherAccount);
+        this.add(TPassword);
+        this.add(TAnotherAccount);
+        this.add(BLogin);
 
     }
 
