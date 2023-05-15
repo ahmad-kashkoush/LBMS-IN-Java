@@ -1,7 +1,15 @@
+import com.mysql.cj.protocol.Resultset;
+
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.*;
 
 public class UserMenu extends JFrame {
+    Connection conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/LBMS", "root", "2003");
+
     JPanel pnl=new JPanel();
     JLabel FormTitle=new JLabel("User Menu");
     JButton []btn={
@@ -9,10 +17,10 @@ public class UserMenu extends JFrame {
             new JButton("My Books"),
             new JButton("Recommend "),
             new JButton("My Purchases"),
-            new JButton("Buy Books")
+            new JButton("Buy Book")
     };
 
-    public UserMenu(){
+    public UserMenu() throws SQLException {
         this.setSize(400, 300);
         this.setTitle("User Menu");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,5 +47,25 @@ public class UserMenu extends JFrame {
         for(int i=0;i<btn.length;i++)
             pnl.add(btn[i]);
 
+        btn[4].addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                PaymentForm pay;
+                pay = new PaymentForm();
+            }
+        });
+ btn[0].addActionListener(new ActionListener() {
+     @Override
+     public void actionPerformed(ActionEvent e) {
+         dispose();
+         CategoryForm c;
+         try {
+             c = new CategoryForm();
+         } catch (SQLException ex) {
+             throw new RuntimeException(ex);
+         }
+     }
+ });
     }
 }

@@ -1,4 +1,7 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import javax.swing.*;
 
 /**
@@ -38,6 +41,31 @@ public class RegisterForm extends JFrame {
         x-=btnWidth-60;
         y+=btnHeight+30;
         Sign.setBounds(x,y,btnWidth,btnHeight);
+        Admin.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                AdmenMenu ad;
+                ad = new AdmenMenu();
+
+            }
+        });
+User.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        dispose();
+        LoginForm lg;
+        try {
+            lg = new LoginForm();
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+
+    }
+});
+
     }
 }
+
  

@@ -1,7 +1,15 @@
+import com.mysql.cj.protocol.Resultset;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.*;
+import java.util.Objects;
 
 public class LoginForm extends JFrame{
+    Connection conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/LBMS", "root", "2003");
+
     JLabel LEmail = new JLabel("Email ");
     JLabel LPassword  = new JLabel("Password ");
     JLabel LAnotherAccount  = new JLabel("Another Account");
@@ -12,7 +20,7 @@ public class LoginForm extends JFrame{
     JButton BLogin = new JButton("login");
     JLabel BForget = new JLabel("forgot your Password ?");
 
-    public LoginForm() {
+    public LoginForm() throws SQLException {
         this.setTitle("login");
         this.setSize(500, 500);
         this.setLocation(500, 100);
@@ -49,6 +57,44 @@ public class LoginForm extends JFrame{
         BLogin.setBounds(col2, row+PrvHeight, LabelWidth, LabelHeight);
 
 
+        BLogin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String eml = TEmail.getText();
+                String pss = TPassword.getText();
+                System.out.println(eml + " " + pss);
+                UserMenu usr;
+                AdmenMenu ad;
+                if (Objects.equals(eml, "admin123") && Objects.equals(pss, "admin123")) {
+                    dispose();
+                    ad = new AdmenMenu();
+                }
+                else {
+                    String anotherAccount = TAnotherAccount.getText();
+                    if (eml.isEmpty())
+                        JOptionPane.showMessageDialog(null, "Can't Leave Email empty");
+                    else if (pss.isEmpty())
+                        JOptionPane.showMessageDialog(null, "Can't Leave Password Empty");
+                    else {
+                        try {
+                            if (Wrong(eml, pss)) {
+                                JOptionPane.showMessageDialog(null, "Wrong Email or password");
+                                TPassword.setText("");
+                                TEmail.setText("");
+                                TAnotherAccount.setText("");
+                            } else {
+                                usr = new UserMenu();
+                            }
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+
+                }
+            }
+        });
+
+
         this.add(LPassword);
         this.add(BForget);
         this.add(FormTitle);
@@ -59,6 +105,17 @@ public class LoginForm extends JFrame{
         this.add(TAnotherAccount);
         this.add(BLogin);
 
+
+
+    }
+    private Boolean Wrong(String a, String b) throws SQLException {
+        PreparedStatement stm=conn.prepareStatement("SELECT * FROM USERS  WHERE Email=? and Password=?;");
+        stm.setString(1, a);
+        stm.setString(2, b);
+        ResultSet res=stm.executeQuery();
+        if(res.next())
+            return false;
+        return true;
     }
 
 }

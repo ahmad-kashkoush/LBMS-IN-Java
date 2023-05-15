@@ -1,8 +1,16 @@
+import com.mysql.cj.protocol.Resultset;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.*;
 
 public class SignUPForm extends JFrame {
-    public SignUPForm(){
+    public static int id=1;
+    Connection conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/LBMS", "root", "2003");
+
+    public SignUPForm() throws SQLException {
         this.setSize(500, 850);
         this.setTitle("Sign UP");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -14,7 +22,7 @@ public class SignUPForm extends JFrame {
         SetBounds();
         AddComponents();
     }
-    public void SetBounds(){
+    public void SetBounds() throws SQLException{
         pnl.setLayout(null);
         int LabelWidth=100, LabelHeight=30;
 
@@ -80,6 +88,81 @@ public class SignUPForm extends JFrame {
         row+=x;PrvHeight+=LabelHeight;
         Submit.setBounds(col2, row+PrvHeight, LabelWidth, LabelHeight);
         Reset.setBounds(col2+LabelWidth+15, row+PrvHeight, LabelWidth, LabelHeight);
+
+
+
+
+
+
+
+
+
+
+        Submit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String fn=tFirst.getText();
+                    String sn=tSecond.getText();
+                    String gn="Male";
+                    if(gndr[1].isSelected())gn="Female";
+                    String ctg="all";
+                    String eml=tEmail.getText();
+                    String phne=tPhone.getText();
+                    String pss=tPassword.getText();
+
+                    String mu =month.getSelectedItem().toString();
+                    String da = day.getSelectedItem().toString();
+                    String ye = year.getSelectedItem().toString();
+
+                    String dt=da+"/"+mu+"/"+ye;
+                    if(fn.isEmpty())
+                        JOptionPane.showMessageDialog(null,"Can't Leave first Name empty");
+                    else if(sn.isEmpty())
+                        JOptionPane.showMessageDialog(null,"Can't Leave second Name empty");
+                    else if(eml.isEmpty() )
+                        JOptionPane.showMessageDialog(null,"Can't Leave Email empty");
+                    else if(EmailExists(eml))
+                        JOptionPane.showMessageDialog(null,"Email already exists");
+                    else if(phne.isEmpty())
+                        JOptionPane.showMessageDialog(null,"Can't Leave Phone empty");
+                    else if(pss.isEmpty())
+                        JOptionPane.showMessageDialog(null,"Can't Leave Password empty");
+                    else if(!AcceptTerms.isSelected())
+                        JOptionPane.showMessageDialog(null,"please accept our terms of services");
+                    else{
+                         PreparedStatement insrt=conn.prepareStatement("insert into  USERS(FirstName, SecondName, Gender, categories, Email, Phone, Password, BirthDate) VALUES (?,?,?,?,?,?,?,?);");
+                        int x=1;
+
+                        insrt.setString(x, fn);x++;
+                        insrt.setString(x, sn);x++;
+                        insrt.setString(x, gn);x++;
+                        insrt.setString(x, ctg);x++;
+                        insrt.setString(x, eml);x++;
+                        insrt.setString(x, phne);x++;
+                        insrt.setString(x,  pss);x++;
+                        insrt.setString(x, dt);
+                        insrt.executeUpdate();
+
+                    }
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+
+            }
+        });
+    }
+    private Boolean EmailExists(String eml) throws SQLException {
+
+            PreparedStatement stm=conn.prepareStatement("SELECT * FROM USERS  WHERE Email=?;");
+            stm.setString(1, eml);
+            ResultSet res=stm.executeQuery();
+            if(res.next())
+                return true;
+            return false;
+
+
     }
     public void arrSet(){
         for(int i=0;i<100;i++){
@@ -145,7 +228,7 @@ public class SignUPForm extends JFrame {
     JTextField tEmail=new JTextField();
     JTextField tPhone=new JTextField();
 
-    JPasswordField tPassword=new JPasswordField("Password");
+    JPasswordField tPassword=new JPasswordField();
     ButtonGroup g1=new ButtonGroup();
     JRadioButton []gndr={new JRadioButton("Male"), new JRadioButton("Female")};
 

@@ -2,14 +2,14 @@ import javax.swing.*;
 import java.awt.*;
 
 public class AdmenMenu extends JFrame {
-    JPanel p2 = new JPanel();
+JPanel p2 = new JPanel();
     JLabel Admen_menu = new JLabel("Admen User");
     JButton v_book = new JButton("View Books");
-    JButton add_book = new JButton("View Books");
-    JButton v_users = new JButton("View Books");
-    JButton Edit_book = new JButton("View Books");
-    JButton add_users = new JButton("View Books");
-    JButton Remove_users = new JButton("View Books");
+    JButton add_book = new JButton("Add Books");
+    JButton v_users = new JButton("View Users");
+    JButton Edit_book = new JButton("Edit Books");
+    JButton add_users = new JButton("Add Users");
+    JButton Remove_users = new JButton("Remove Users");
     public AdmenMenu(){
         this.setTitle("Add Book");
         this.setSize(400,300);

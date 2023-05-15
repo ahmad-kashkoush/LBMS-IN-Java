@@ -15,12 +15,16 @@ public class Main {
 //              AddBookForm ab=new AddBookForm();//[done]
 //              UserMenu am=new UserMenu();
 //              AdmenMenu m =new AdmenMenu();
+        RegisterForm re=new RegisterForm();
+
 //                Adminstartor ad=new Adminstartor();
 //                ad.Run();
-//                    ab.Jshow();
+
 //                SignUPForm ab=new SignUPForm();
-                 EditBook eb=new EditBook();
+//                 EditBook eb=new EditBook();
 //                 eb.Jshow();
+
+
 
 
         }
