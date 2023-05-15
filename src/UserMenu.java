@@ -52,7 +52,11 @@ public class UserMenu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dispose();
                 PaymentForm pay;
-                pay = new PaymentForm();
+                try {
+                    pay = new PaymentForm();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
  btn[0].addActionListener(new ActionListener() {

@@ -163,7 +163,11 @@ public  class AddBookForm extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JFrame AdmenMenu = new JFrame("A new game!");
                 AdmenMenu.setVisible(false);
-                AdmenMenu.add(new AdmenMenu());
+                try {
+                    AdmenMenu.add(new AdmenMenu());
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
                 AdmenMenu.pack();
 
 

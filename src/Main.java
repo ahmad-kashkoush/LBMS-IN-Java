@@ -15,7 +15,7 @@ public class Main {
 //              AddBookForm ab=new AddBookForm();//[done]
 //              UserMenu am=new UserMenu();
 //              AdmenMenu m =new AdmenMenu();
-        RegisterForm re=new RegisterForm();
+//        PaymentForm re=new PaymentForm();
 
 //                Adminstartor ad=new Adminstartor();
 //                ad.Run();
@@ -23,6 +23,7 @@ public class Main {
 //                SignUPForm ab=new SignUPForm();
 //                 EditBook eb=new EditBook();
 //                 eb.Jshow();
+                AdmenMenu ad=new AdmenMenu();
 
 
 

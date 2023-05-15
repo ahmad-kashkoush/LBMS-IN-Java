@@ -67,7 +67,11 @@ public class LoginForm extends JFrame{
                 AdmenMenu ad;
                 if (Objects.equals(eml, "admin123") && Objects.equals(pss, "admin123")) {
                     dispose();
-                    ad = new AdmenMenu();
+                    try {
+                        ad = new AdmenMenu();
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
                 else {
                     String anotherAccount = TAnotherAccount.getText();

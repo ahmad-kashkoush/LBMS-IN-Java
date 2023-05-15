@@ -64,7 +64,7 @@ public class CategoryForm extends JFrame {
 
                 ResultSet res= bks.executeQuery();
                 while(res.next()) {
-                    dtm.addRow(new Object[]{res.getString(1), res.getString(2), res.getString(3), res.getString(4), res.getString(5)});
+                    dtm.addRow(new Object[]{res.getString("id"), res.getString("BookName"), res.getString(3), res.getString(4), res.getString(5)});
                 }
                 tb.setModel(dtm);
 

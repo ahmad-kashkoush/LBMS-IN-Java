@@ -2,6 +2,9 @@
 import java.awt.*;
 import java.awt.event.*;
 //import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.*;
 
@@ -10,9 +13,10 @@ import javax.swing.*;
      * @author W.A.K
      */
     public class PaymentForm extends JFrame {
+        Connection conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/LBMS", "root", "2003");
         JPanel p1 = new JPanel();
         JLabel title = new JLabel("PayMent");
-        JLabel Name = new JLabel("YourName: ");
+        JLabel Name = new JLabel("Book Name: ");
         JTextField tName = new JTextField();
 
         JLabel Address = new JLabel("Address: ");
@@ -27,11 +31,12 @@ import javax.swing.*;
         JLabel Credit = new JLabel("Credit: ");
         JTextField tCredit = new JTextField();
 
-        JLabel VCC = new JLabel("VCC: ");
+        JLabel VCC = new JLabel("Price: ");
         JTextField tVCC = new JTextField();
         JButton User = new JButton("UserMenu");
+        JButton buy =new JButton(" Buy");
 
-        public PaymentForm() {
+        public PaymentForm() throws SQLException {
             this.setTitle("Payment");
             this.setSize(400, 600);
             this.setVisible(true);
@@ -56,6 +61,7 @@ import javax.swing.*;
             p1.add(tVCC);
             p1.setLayout(null);
             p1.add(User);
+            p1.add(buy);
             title.setBounds(130, 5, 250, 100);
             title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 25));
 
@@ -102,6 +108,7 @@ import javax.swing.*;
             x += 85;
             y += 55;
             User.setBounds(x, y, 150, 30);
+            buy.setBounds(300,515,70,30);
             User.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -113,6 +120,35 @@ import javax.swing.*;
                         throw new RuntimeException(ex);
                     }
 
+                }
+            });
+            buy.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+
+                    String a =tName.getText();
+                    String b =tAddress.getText();
+                    String c = tPhone.getText();
+                    String d = tCredit.getText();
+                    String f = tVCC.getText();
+
+                    try {
+                        PreparedStatement p=conn.prepareStatement("insert into Buy (BookName ,UserId,price)values(?,?,?);");
+                        p.setString(1,a);
+                        p.setInt(2,10);
+                        p.setInt(3,Integer.parseInt(f));
+
+                        p.executeUpdate();
+
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+
+                    tName.setText("");
+                    tAddress.setText("");
+                    tPhone.setText("");
+                    tCredit.setText("");
+                    tVCC.setText("");
                 }
             });
 
