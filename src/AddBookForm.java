@@ -2,9 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.*;
+import java.sql.DriverManager;
 
 public  class AddBookForm extends JFrame {
-    //        Main m=new Main();
+    Connection conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/LBMS", "root", "2003");
     String[] arr_quantity = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30"};
     JPanel p1 = new JPanel();
     JLabel title = new JLabel("Add Book");
@@ -19,7 +21,7 @@ public  class AddBookForm extends JFrame {
     JLabel Category  = new JLabel("Category");
     JTextField category= new JTextField();
     JButton Save =new JButton("Save Changes");
-    public  AddBookForm(){
+    public  AddBookForm() throws SQLException {
     }
     public void Jshow(){
         this.setTitle("Add Book");
@@ -71,22 +73,44 @@ public  class AddBookForm extends JFrame {
         Save.addActionListener( new ActionListener() {
             public void  actionPerformed(ActionEvent e) {
                 JFrame AdmenMenu = new JFrame("A new game!");
-                Book bk=new Book();
-                bk.setBookName(Namebook.getText());
-                bk.setID(Id.getText());
-                String typedText=new String();
-                typedText = ((JTextField)quantity.getEditor().getEditorComponent()).getText();
-//                bk.setQuantity(Integer.parseInt(typedText));
+                try {
+                    if(CheckIdDB(Id.getText())) {
+                        Id.setText("");
+                        JOptionPane.showMessageDialog(null, "Id Alread Exists");
+                    }else {
+                        PreparedStatement st = conn.prepareStatement("INSERT INTO Book(id, BookName, quantity, numberOfPages, category) values (?,?, ?, ?, ?) ");
+                        st.setString(1, NameBook.getText());
+                        st.setString(1, Id.getText());
 
-                bk.setNumberOfPages(Integer.parseInt(NumberofPages.getText()));
-                bk.SetCategory(category.getText());
+                        st.setString(2, Namebook.getText());
+                        String typedText;
+                        typedText = ((JTextField) quantity.getEditor().getEditorComponent()).getText();
+                        st.setInt(3, Integer.parseInt(typedText));
+                        st.setInt(4, Integer.parseInt(NumberofPages.getText()));
+                        st.setString(5, category.getText());
+                        st.executeUpdate();
 
-//                AdmenMenu.setVisible(false);
-                close();
+                    }
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+
+
 
             }
         });
 
+    }
+    private Boolean CheckIdDB(String idd) throws SQLException {
+        PreparedStatement stm=conn.prepareStatement("SELECT * FROM Book  WHERE id=?");
+        stm.setString(1, idd);
+        ResultSet res=stm.executeQuery();
+        while(res.next()){
+            if(res.getString("id")==idd)
+                return false;
+        }
+        return true;
     }
     public void close(){
         this.setTitle("Add Book");
