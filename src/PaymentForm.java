@@ -16,7 +16,7 @@ import javax.swing.*;
         Connection conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/LBMS", "root", "2003");
         JPanel p1 = new JPanel();
         JLabel title = new JLabel("PayMent");
-        JLabel Name = new JLabel("Book Name: ");
+        JLabel Name = new JLabel("`UserName: ");
         JTextField tName = new JTextField();
 
         JLabel Address = new JLabel("Address: ");
@@ -24,7 +24,7 @@ import javax.swing.*;
 
         JLabel Phone = new JLabel("PhoneNumber: ");
         JTextField tPhone = new JTextField();
-        JLabel idBook = new JLabel("BookId:");
+        JLabel idBook = new JLabel("UserId:");
         JTextField tidBook = new JTextField();
         JLabel nameBook = new JLabel("BookName:");
         JTextField tnameBook = new JTextField();
@@ -38,7 +38,8 @@ import javax.swing.*;
 
         public PaymentForm() throws SQLException {
             this.setTitle("Payment");
-            this.setSize(400, 600);
+            this.setSize(500, 700);
+            this.setLocation(600, 25);
             this.setVisible(true);
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             this.setResizable(false);
@@ -66,8 +67,7 @@ import javax.swing.*;
             title.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 25));
 
             int x = 30, y = 100, w = 150, h = 30;
-            int xt = 150, wt = 200, r = 30;
-
+            int xt = 150, wt = 300, r = 30;
 
             Name.setBounds(x, y, w, h);
             tName.setBounds(xt, y, wt, h);
@@ -107,8 +107,9 @@ import javax.swing.*;
             VCC.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 15));
             x += 85;
             y += 55;
-            User.setBounds(x, y, 150, 30);
-            buy.setBounds(300,515,70,30);
+            int btnWidth=150, btnHeight=30;
+            User.setBounds(50, y, 400, 30);
+            buy.setBounds(50,y+30+10,400,30);
             User.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -126,7 +127,7 @@ import javax.swing.*;
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    String a =tName.getText();
+                    String a =tnameBook.getText();
                     String b =tAddress.getText();
                     String c = tPhone.getText();
                     String d = tCredit.getText();

@@ -9,7 +9,7 @@ public class AdmenMenu extends JFrame {
     Connection conn= DriverManager.getConnection("jdbc:mysql://localhost:3306/LBMS", "root", "2003");
 
     JPanel p2 = new JPanel();
-    JLabel Admen_menu = new JLabel("Admen User");
+    JLabel Admen_menu = new JLabel("Admen MENU");
     JButton v_book = new JButton("View Books");
     JButton add_book = new JButton("Add Books");
     JButton v_users = new JButton("View Users");
@@ -18,7 +18,8 @@ public class AdmenMenu extends JFrame {
     JButton Remove_users = new JButton("Remove Users");
     public AdmenMenu() throws SQLException {
         this.setTitle("Add Book");
-        this.setSize(400,300);
+        this.setSize(500,800);
+        this.setLocation(600, 25);
         this.setResizable(false);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,16 +34,16 @@ public class AdmenMenu extends JFrame {
         p2.setLayout(null);
         Admen_menu.setBounds(120,10,300,50);
         Admen_menu.setFont(new Font("Normal", Font.BOLD, 20));
-        int BtnWidth=150;
+        int BtnWidth=400;
         int col=50, col2=col+BtnWidth+10;
         v_book.setBounds(col,70,BtnWidth,30);
-        add_book.setBounds(col2,70,BtnWidth,30);
+        add_book.setBounds(col,110+10,BtnWidth,30);
 
-        v_users.setBounds(col,120,BtnWidth,30);
-        Edit_book.setBounds(col2,120,BtnWidth,30);
+        v_users.setBounds(col,150+20,BtnWidth,30);
+        Edit_book.setBounds(col,190+30,BtnWidth,30);
 
-        add_users.setBounds(col,170,BtnWidth,30);
-        Remove_users.setBounds(col2,170,BtnWidth,30);
+        add_users.setBounds(col,230+40,BtnWidth,30);
+        Remove_users.setBounds(col,270+50,BtnWidth,30);
         v_users.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,13 +82,51 @@ public class AdmenMenu extends JFrame {
                         throw new RuntimeException(ex);
                     }
 
-
                     view.add(tb);
 
                 }
 
             }
         });
+        add_book.addActionListener(new ActionListener() {
+                                       @Override
+                                       public void actionPerformed(ActionEvent e) {
+                                           dispose();
+                                           AddBookForm adB;
+                                           try {
+                                               adB = new AddBookForm();
+                                           } catch (SQLException ex) {
+                                               throw new RuntimeException(ex);
+                                           }
+                                       }
+                                   }
+        );
+
+        Edit_book.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                EditBook EB;
+                try {
+                    EB = new EditBook();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+        v_book.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                CategoryForm c;
+                try {
+                    c = new CategoryForm();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+
     }
 
 }

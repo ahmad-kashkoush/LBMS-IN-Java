@@ -12,6 +12,7 @@ public class SignUPForm extends JFrame {
 
     public SignUPForm() throws SQLException {
         this.setSize(500, 850);
+        this.setLocation(200, 25);
         this.setTitle("Sign UP");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
@@ -131,7 +132,7 @@ public class SignUPForm extends JFrame {
                     else if(!AcceptTerms.isSelected())
                         JOptionPane.showMessageDialog(null,"please accept our terms of services");
                     else{
-                         PreparedStatement insrt=conn.prepareStatement("insert into  USERS(FirstName, SecondName, Gender, categories, Email, Phone, Password, BirthDate) VALUES (?,?,?,?,?,?,?,?);");
+                         PreparedStatement insrt=conn.prepareStatement("insert into  USERS(FirstName, SecondName, Gender, categories, Email, Phone, Password, BirthDate, BookName) VALUES (?,?,?,?,?,?,?,?, ?);");
                         int x=1;
 
                         insrt.setString(x, fn);x++;
@@ -141,7 +142,8 @@ public class SignUPForm extends JFrame {
                         insrt.setString(x, eml);x++;
                         insrt.setString(x, phne);x++;
                         insrt.setString(x,  pss);x++;
-                        insrt.setString(x, dt);
+                        insrt.setString(x, dt);x++;
+                        insrt.setString(x, "Python Programming");
                         insrt.executeUpdate();
 
                     }

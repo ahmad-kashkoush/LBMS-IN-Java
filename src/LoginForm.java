@@ -15,15 +15,17 @@ public class LoginForm extends JFrame{
     JLabel LAnotherAccount  = new JLabel("Another Account");
     JLabel FormTitle=new JLabel("Login");
     JTextField TEmail = new JTextField();
-    JTextField TPassword  = new JTextField();
+    JPasswordField TPassword  = new JPasswordField();
+
     JTextField TAnotherAccount = new JTextField();
     JButton BLogin = new JButton("login");
     JLabel BForget = new JLabel("forgot your Password ?");
 
     public LoginForm() throws SQLException {
         this.setTitle("login");
-        this.setSize(500, 500);
-        this.setLocation(500, 100);
+        this.setSize(500, 800);
+        this.setLocation(600, 25);
+
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(null);
@@ -63,7 +65,6 @@ public class LoginForm extends JFrame{
                 String eml = TEmail.getText();
                 String pss = TPassword.getText();
                 System.out.println(eml + " " + pss);
-                UserMenu usr;
                 AdmenMenu ad;
                 if (Objects.equals(eml, "admin123") && Objects.equals(pss, "admin123")) {
                     dispose();
@@ -74,6 +75,7 @@ public class LoginForm extends JFrame{
                     }
                 }
                 else {
+
                     String anotherAccount = TAnotherAccount.getText();
                     if (eml.isEmpty())
                         JOptionPane.showMessageDialog(null, "Can't Leave Email empty");
@@ -87,7 +89,8 @@ public class LoginForm extends JFrame{
                                 TEmail.setText("");
                                 TAnotherAccount.setText("");
                             } else {
-                                usr = new UserMenu();
+                                dispose();
+                               UserMenu usr = new UserMenu();
                             }
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);

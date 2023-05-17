@@ -21,11 +21,13 @@ public  class AddBookForm extends JFrame {
     JLabel Category  = new JLabel("Category");
     JTextField category= new JTextField();
     JButton Save =new JButton("Save Changes");
+    JButton Admin =new JButton("Admin Menu");
+    JLabel prce=new JLabel("Price");
+    JTextField TPrce=new JTextField();
     public  AddBookForm() throws SQLException {
-    }
-    public void Jshow(){
         this.setTitle("Add Book");
         this.setSize(400,500);
+        this.setLocation(600, 25);
         this.setResizable(false);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,7 +45,11 @@ public  class AddBookForm extends JFrame {
         p1.add(Category);
         p1.add(category);
         p1.add(Save);
+        p1.add(prce);
+        p1.add(Admin);
+        p1.add(TPrce);
         p1.setLayout(null);
+
 
         title.setBounds(122,20,250,100);
         title.setFont(new Font("Normal", Font.BOLD, 26));
@@ -67,8 +73,15 @@ public  class AddBookForm extends JFrame {
         Category.setBounds(50,320,150,25);
         Category.setFont(new Font("Arial", Font.PLAIN, 15));
         category.setBounds(150,320,200,25);
+        Category.setFont(new Font("Arial", Font.PLAIN, 15));
+        category.setBounds(150,320,200,25);
 
-        Save.setBounds(122,370,150,30);
+        prce.setBounds(50, 370,150,25);
+        prce.setFont(new Font("Arial", Font.PLAIN, 15));
+        TPrce.setBounds(150,370,200,25);
+
+        Save.setBounds(40,420,150,30);
+        Admin.setBounds(200,420,170,30);
 
         Save.addActionListener( new ActionListener() {
             public void  actionPerformed(ActionEvent e) {
@@ -78,16 +91,14 @@ public  class AddBookForm extends JFrame {
                         Id.setText("");
                         JOptionPane.showMessageDialog(null, "Id Alread Exists");
                     }else {
-                        PreparedStatement st = conn.prepareStatement("INSERT INTO Book(id, BookName, quantity, numberOfPages, category) values (?,?, ?, ?, ?) ");
-                        st.setString(1, NameBook.getText());
+                        PreparedStatement st = conn.prepareStatement("INSERT INTO Book(id, BookName, quantity, numberOfPages, category, Price) values (?,?, ?, ?, ?, ?) ;");
                         st.setString(1, Id.getText());
-
-                        st.setString(2, Namebook.getText());
-                        String typedText;
-                        typedText = ((JTextField) quantity.getEditor().getEditorComponent()).getText();
+                        st.setString(2, NameBook.getText());
+                        String typedText = quantity.getSelectedItem().toString();
                         st.setInt(3, Integer.parseInt(typedText));
                         st.setInt(4, Integer.parseInt(NumberofPages.getText()));
                         st.setString(5, category.getText());
+                        st.setInt(6, Integer.parseInt(TPrce.getText()));
                         st.executeUpdate();
 
                     }
@@ -100,81 +111,29 @@ public  class AddBookForm extends JFrame {
 
             }
         });
-
+    Admin.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            dispose();
+            AdmenMenu ad;
+            try {
+                ad=new AdmenMenu();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+    });
     }
+
     private Boolean CheckIdDB(String idd) throws SQLException {
         PreparedStatement stm=conn.prepareStatement("SELECT * FROM Book  WHERE id=?");
         stm.setString(1, idd);
         ResultSet res=stm.executeQuery();
-        while(res.next()){
-            if(res.getString("id")==idd)
-                return false;
-        }
-        return true;
+       if(res.next())
+            return true;
+
+        return false;
     }
-    public void close(){
-        this.setTitle("Add Book");
-        this.setSize(400,500);
-        this.setResizable(false);
-        this.setVisible(false);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.add(p1);
-        //   p1.setBackground(Color.GRAY);
-        p1.add(title);
-        p1.add(NameBook);
-        p1.add(Namebook);
-        p1.add(ID);
-        p1.add(Id);
-        p1.add(Quantity);
-        p1.add(quantity);
-        p1.add(NumberOfPages);
-        p1.add(NumberofPages);
-        p1.add(Category);
-        p1.add(category);
-        p1.add(Save);
-        p1.setLayout(null);
 
-        title.setBounds(122,20,250,100);
-        title.setFont(new Font("Normal", Font.BOLD, 26));
-
-        NameBook.setBounds(40,120,150,25);
-        NameBook.setFont(new Font("Arial", Font.PLAIN, 15));
-        Namebook.setBounds(150,120,200,30);
-
-        ID.setBounds(65,170,150,25);
-        ID.setFont(new Font("Arial", Font.PLAIN, 15));
-        Id.setBounds(150,170,200,25);
-
-        Quantity.setBounds(50,220,150,25);
-        Quantity.setFont(new Font("Arial", Font.PLAIN, 15));
-        quantity.setBounds(150,220,200,25);
-
-        NumberOfPages.setBounds(25,270,150,25);
-        NumberOfPages.setFont(new Font("Arial", Font.PLAIN, 15));
-        NumberofPages.setBounds(150,270,200,25);
-
-        Category.setBounds(50,320,150,25);
-        Category.setFont(new Font("Arial", Font.PLAIN, 15));
-        category.setBounds(150,320,200,25);
-
-        Save.setBounds(122,370,150,30);
-
-        Save.addActionListener( new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JFrame AdmenMenu = new JFrame("A new game!");
-                AdmenMenu.setVisible(false);
-                try {
-                    AdmenMenu.add(new AdmenMenu());
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-                AdmenMenu.pack();
-
-
-
-            }
-
-        });
-    }
 
 }

@@ -20,7 +20,8 @@ public class RegisterForm extends JFrame {
     public RegisterForm(){
 
         this.setTitle("Registration Form");
-        this.setSize(400,300);
+        this.setSize(500, 400);
+        this.setLocation(600, 25);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
@@ -33,13 +34,14 @@ public class RegisterForm extends JFrame {
         p1.setLayout(null);
         title.setBounds(120,5,250,100);
         title.setFont(new Font ("Arial", Font.BOLD, 25) );
-        int btnWidth=150 , btnHeight=30;
+        int btnWidth=150*3 , btnHeight=50;
         int x=30, y=100;
         User.setBounds(x,y,btnWidth,btnHeight);
-        x+=btnWidth+20;
-        Admin.setBounds(x,y,btnWidth,btnHeight);
-        x-=btnWidth-60;
+
         y+=btnHeight+30;
+        Admin.setBounds(x,y,btnWidth,btnHeight);
+        y+=btnHeight+30;
+
         Sign.setBounds(x,y,btnWidth,btnHeight);
 
 User.addActionListener(new ActionListener() {
